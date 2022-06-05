@@ -50,6 +50,13 @@ keys = [
     Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 5")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer --increase 5")),
     Key([], "XF86AudioMute", lazy.spawn("pamixer --toggle-mute")),
+
+    # Bindings for screenshotting.
+    # Use Win + Shift + S to save a screenshot to .screenshots.
+    Key([mod, "shift"], "s",
+        lazy.spawn("maim -s -u | xclip -selection clipboard -t image/png -i"),
+        desc="Screenshot a selected area of the screen and save it to the clipboard."
+    ),
 ]
 
 
@@ -59,22 +66,12 @@ keys = [
 # Set the names of the groups, along with their default layout.
 groups = []
 group_names = [
-    # ("A", {"layout": "monadtall"}),    # ♫  
-    # ("B", {"layout": "monadtall"}),    # ✉
-    # ("C", {"layout": "monadtall"}),    # »
-    # ("D", {"layout": "monadtall"}),    # ⚒
-    # ("E", {"layout": "monadtall"}),
-    # ("F", {"layout": "monadtall"}), 
-    # ("G", {"layout": "monadtall"}), 
-    # ("H", {"layout": "monadtall"}),
-    # ("I", {"layout": "monadtall"}), 
-    ("➀", {"layout": "monadtall"}),
-    ("➁", {"layout": "monadtall"}),
-    ("➂", {"layout": "monadtall"}),
-    ("➃", {"layout": "monadtall"}),
-    ("➄", {"layout": "monadtall"}),
-    ("➅", {"layout": "monadtall"}),
-    ("➆", {"layout": "monadtall"}),
+    ("WWW",  {"layout": "max"}),        # Web browsing.
+    ("DEV",  {"layout": "monadtall"}),  # Programming.
+    ("SYS",  {"layout": "monadtall"}),  # System monitoring, etc.
+    ("DOC",  {"layout": "max"}),        # Documentation.
+    ("VIRT", {"layout": "monadtall"}),  # VMs.
+    ("GAME", {"layout": "max"}),        # Gaming.
 ]
 
 # Create the groups and set keybindings for switching between them,
@@ -92,44 +89,142 @@ for num_key, (name, params) in enumerate(group_names, 1):
 # 
 # Set some themes that all work the same.
 # Change `theme` to one of the ones below to change the colors.  
-hybrid = {
-    "bar":  "1d1f21",
-    "text": "c5c8c6",
-    0:      "282a2e",
-    1:      "a54242",
-    2:      "8c9440",
-    3:      "de935f",
-    4:      "5f819d",
-}
-kasugano = {
-    "bar":  "1b1b1b",
-    "text": "ffffff",
-    0:      "3d3d3d",
-    1:      "6673bf",
-    2:      "3ea290",
-    3:      "b0ead9",
-    4:      "31658c",
-}
-blue_and_black = {
-    "bar":  "1c1c1c",
-    "text": "ececec",
-    0:      "212121",
-    1:      "313131",
-    2:      "414141",
-    3:      "515151",
-    4:      "0680da",  # Accent color
-}
-blue_gradient = {
-    "bar":  "151515",
-    "text": "fafafa",
-    0:      "191919",
-    1:      "282828",
-    2:      "323232",
-    3:      "3b3b3b",
-    4:      "0841a9", # Changed from 0e4d99
+low_contrast = {
+    "primary": {
+        "bg": "2d2d2d",
+        "fg": "d3d0c8",
+    },
+    "dark": {
+        0: "5f5f5f",
+        1: "d96468",
+        2: "a2d964",
+        3: "d9c964",
+        4: "64a2d9",
+        5: "9a64d9",
+        6: "64d9d5",
+        7: "989898",
+    },
+    "light": {
+        0: "828282",
+        1: "d98f93",
+        2: "b8d98f",
+        3: "d9cf8f",
+        4: "8f99d9",
+        5: "b08fd9",
+        6: "8fd9d5",
+        7: "c5c5c5",
+    },
 }
 
-theme = blue_gradient
+numix_darkest = {
+    "primary": {
+        "bg": "282828",
+        "fg": "a2a2a2",
+    },
+    "dark": {
+        0: "555555",
+        1: "9c3528",
+        2: "61bc3b",
+        3: "f3b43a",
+        4: "0d68a8",
+        5: "744560",
+        6: "288e9c",
+        7: "a2a2a2",
+    },
+    "light": {
+        0: "888888",
+        1: "d64937",
+        2: "86df5d",
+        3: "fdd75a",
+        4: "0f75bd",
+        5: "9e5e83",
+        6: "37c3d6",
+        7: "f9f9f9",
+    },
+}
+
+tartan = {
+    "primary": {
+        "bg": "2b2b2b",
+        "fg": "dedede",
+    },
+    "dark": {
+        0: "2e3436",
+        1: "cc0000",
+        2: "4e9a06",
+        3: "c4a000",
+        4: "3465a4",
+        5: "75507b",
+        6: "06989a",
+        7: "d3d7cf",
+    },
+    "light": {
+        0: "555753",
+        1: "ef2929",
+        2: "8ae234",
+        3: "fce94f",
+        4: "729fcf",
+        5: "ad7fa8",
+        6: "34e2e2",
+        7: "eeeeec",
+    },
+}
+
+colorful_colors = {
+    "primary": {
+        "bg": "000000",
+        "fg": "ffffff",
+    },
+    "dark": {
+        0: "151515",
+        1: "ff8eaf",
+        2: "a6e25f",
+        3: "f8e578",
+        4: "a6e2f0",
+        5: "e85b92",
+        6: "5f868f",
+        7: "d5f1f2",
+    },
+    "light": {
+        0: "696969",
+        1: "ed4c7a",
+        2: "a6e179",
+        3: "ffdf6b",
+        4: "79d2ff",
+        5: "bb5d79",
+        6: "87a8af",
+        7: "e2f1f6",
+    },
+}
+
+rezza = {
+    "primary": {
+        "bg": "222222",
+        "fg": "dddddd",
+    },
+    "light": {
+        0: "191919",
+        1: "803232",
+        2: "5b762f",
+        3: "aa9943",
+        4: "324c80",
+        5: "706c9a",
+        6: "92b19e",
+        7: "ffffff",
+    },
+    "dark": {
+        0: "252525",
+        1: "982b2b",
+        2: "89b83f",
+        3: "efef60",
+        4: "2b4f98",
+        5: "826ab1",
+        6: "a1cdcd",
+        7: "dddddd",
+    },
+}
+
+theme = rezza
 
 # Change this to true if you'd like gaps between
 # your windows.
@@ -138,13 +233,14 @@ use_gaps = True
 # Define some common aesthetics and functionality that
 # most layouts will have in common.
 layout_defaults = {
-    "border_width":  2,
-    "border_focus":  theme[4],
-    "border_normal": theme[3],
+    "border_width":  1,
+    "border_focus":  theme["dark"][1],
+    "border_normal": theme["dark"][0],
     "margin":        12 if use_gaps else 0, 
 }
 
 layouts = [
+    layout.Stack(**layout_defaults),
     layout.Max(),
     layout.MonadTall(**layout_defaults),
 ]
@@ -157,7 +253,13 @@ widget_defaults = {
     "font":       "Ubuntu Mono Bold",
     "fontsize":   12,
     "padding":    6,
-    "foreground": theme["text"],
+    "foreground": theme["primary"]["fg"],
+}
+colored_widget_defaults = {
+    "font":       "Ubuntu Mono Bold",
+    "fontsize":   12,
+    "padding":    6,
+    "foreground": theme["primary"]["bg"]
 }
 
 # This is redundant as of now.
@@ -238,110 +340,103 @@ screens = [
         top=bar.Bar(
             [
                 # Right hand side of the bar.
-                separator(theme[4]),
-                icon("⌦", theme["text"], theme[4]),
-                widget.QuickExit(
-                    default_text="[Log Out]",
-                    background=theme[4],
-                    **widget_defaults,
-                ),
-                right_arrow(theme[4], theme[3]),
-                separator(theme[3]),
-                icon("\u2318", theme["text"], theme[3]),
+                separator(theme["primary"]["bg"]),
+                icon("\u2318", theme["primary"]["fg"], theme["primary"]["bg"]),
                 widget.TextBox(
-                    text=" Workspaces",
-                    background=theme[3],
+                    text=" Workspaces:",
                     **widget_defaults,
                 ),
-                right_arrow(theme[3], theme[2]),
-                separator(theme[2]),
+                right_arrow(theme["primary"]["bg"], theme["dark"][0]),
+                right_arrow(theme["dark"][0], theme["light"][1]),
+                separator(theme["light"][1]),
                 widget.GroupBox(
-                    font="Ubuntu Mono Bold",
+                    font="Ubuntu Mono",
                     highlight_method="line",
-                    highlight_color=theme[3],
-                    padding_y=3,
+                    highlight_color=theme["light"][1],
+                    padding_y=2,
                     margin_x=8,
-                    padding_x=6,
-                    borderwidth=2,
-                    active=theme[4],
-                    inactive=theme["text"],
-                    this_current_screen_border=theme[4],
-                    background=theme[2],
+                    padding_x=3,
+                    borderwidth=1,
+                    active=theme["light"][7],
+                    inactive=theme["primary"]["bg"],
+                    this_current_screen_border=theme["primary"]["fg"],
+                    background=theme["light"][1],
                     fontsize=widget_defaults["fontsize"],
+                    paddin=widget_defaults["padding"],
                 ),
-                right_arrow(theme[2], theme[1]),
-                separator(theme[1]),
-                icon("\u2387", theme["text"], theme[1]),
+                right_arrow(theme["light"][1], theme["dark"][1]),
+                separator(theme["dark"][1]),
+                icon("\u2387", theme["primary"]["bg"], theme["dark"][1]),
                 widget.CurrentLayout(
-                    background=theme[1],
-                    **widget_defaults,
+                    background=theme["dark"][1],
+                    **colored_widget_defaults,
                 ),
-                separator(theme[1]),
+                separator(theme["dark"][1]),
                 widget.Prompt(
-                    background=theme[1],
-                    cursor_color=theme["text"],
+                    background=theme["dark"][1],
+                    cursor_color=theme["primary"]["fg"],
                     **widget_defaults,
                 ),
-                right_arrow(theme[1], theme[0]),
-                right_arrow(theme[0], theme["bar"]),
-                separator(theme["bar"]),
+                right_arrow(theme["dark"][1], theme["light"][1]),
+                right_arrow(theme["light"][1], theme["dark"][0]),
+                right_arrow(theme["dark"][0], theme["primary"]["bg"]),
+                separator(theme["primary"]["bg"]),
                 widget.WindowName(
                     **widget_defaults,
                 ),
-                separator(theme["bar"]),
+                separator(theme["primary"]["bg"]),
 
                 # Right hand side of the bar.
                 # Use arrows for a powerline-style effect.
-                separator(theme["bar"]),
-                left_arrow(theme[0], theme["bar"], padding=-5),
-                left_arrow(theme[1], theme[0]),
-                icon("\u26c1", theme["text"], theme[1]),
+                separator(theme["primary"]["bg"]),
+                left_arrow(theme["dark"][0], theme["primary"]["bg"], padding=-5),
+                left_arrow(theme["light"][1], theme["dark"][0], padding=-5),
+                left_arrow(theme["dark"][1], theme["light"][1]),
+                icon("\u26c1", theme["primary"]["bg"], theme["dark"][1]),
                 widget.Net(
                     interface="wlan0",
-                    format="{down}↓ {up}↑",
-                    background=theme[1],
-                    **widget_defaults,
+                    format="{down} ↓↑ {up}",
+                    background=theme["dark"][1],
+                    **colored_widget_defaults,
                 ),
-                separator(theme[1]),
-                left_arrow(theme[2], theme[1]),
+                separator(theme["dark"][1]),
+                left_arrow(theme["light"][2], theme["dark"][1]),
+                left_arrow(theme["dark"][2], theme["light"][2]),
                 widget.CPU(
-                    format="CPU {load_percent}%",
-                    background=theme[2],
-                    **widget_defaults,
+                    format="CPU: {load_percent}%",
+                    background=theme["dark"][2],
+                    **colored_widget_defaults,
                 ),
+                separator(theme["dark"][2]),
+                left_arrow(theme["light"][3], theme["dark"][2]),
+                left_arrow(theme["dark"][3], theme["light"][3]),
                 widget.Memory(
                     measure_mem="G",
-                    format="Mem {MemUsed: .1f}/{MemTotal: .1f}GB",
-                    background=theme[2],
-                    **widget_defaults,
+                    format="Mem: {MemUsed:.1f}/{MemTotal:.1f}GB",
+                    background=theme["dark"][3],
+                    **colored_widget_defaults,
                 ),
+                separator(theme["dark"][3]),
+                left_arrow(theme["light"][4], theme["dark"][3]),
+                left_arrow(theme["dark"][4], theme["light"][4]),
                 widget.NvidiaSensors(
-                    format="GPU {perf} {temp}°C",
-                    background=theme[2],
-                    **widget_defaults,
+                    format="GPU: {perf} {temp}°C",
+                    background=theme["dark"][4],
+                    **colored_widget_defaults,
                 ),
-                separator(theme[2]),
-                left_arrow(theme[3], theme[2]),
-                icon("⌨", theme["text"], theme[3]),
-                widget.TextBox(
-                    text="System",
-                    background=theme[3],
-                    **widget_defaults,
-                ),
-                separator(theme[3]),
-                left_arrow(theme[4], theme[3]),
-                icon("\u231b", theme["text"], theme[4]),
+                separator(theme["dark"][4]),
+                left_arrow(theme["light"][5], theme["dark"][4]),
+                left_arrow(theme["dark"][5], theme["light"][5]),
+                icon("\u231b", theme["primary"]["bg"], theme["dark"][5]),
                 widget.Clock(
-                    format="%m/%d %H:%M",
-                    background=theme[4],
-                    **widget_defaults,
+                    format="%A, %B %d - %H:%M",
+                    background=theme["dark"][5],
+                    **colored_widget_defaults,
                 ),
-                separator(theme[4]),
+                separator(theme["dark"][5]),
             ],
             24,
-            background=theme["bar"],
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+            background=theme["primary"]["bg"],
         ),
     ),
 ]
